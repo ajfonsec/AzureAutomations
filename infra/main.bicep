@@ -321,7 +321,7 @@ var blobContainerName = 'documents'
 var queueName = 'doc-processing'
 var clientKey = '${uniqueString(guid(subscription().id, deployment().name))}${newGuidString}'
 var eventGridSystemTopicName = 'doc-processing'
-var tags = { 'azd-env-name': environmentName, 'cost-center': costCenter, 'creation-date':creationDate, 'expiration-date': expirationDate, 'requestor-name': requestor}
+var tags = { 'azd-env-name': environmentName, 'cost-center': costCenter, 'creation-date':creationDate, 'expiration-date': expirationDate, 'requestor-name': requestor, 'resource-token':resourceToken}
 var rgName = 'rg-${environmentName}'
 var keyVaultName = 'kv-${resourceToken}'
 
