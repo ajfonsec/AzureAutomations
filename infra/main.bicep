@@ -321,7 +321,7 @@ var blobContainerName = 'documents'
 var queueName = 'doc-processing'
 var clientKey = '${uniqueString(guid(subscription().id, deployment().name))}${newGuidString}'
 var eventGridSystemTopicName = 'doc-processing'
-var tags = { 'azd-env-name': environmentName, 'cost-center': costCenter, 'creation-date':creationDate, 'expiration-date': expirationDate, 'requestor-name': requestor, 'resource-token':resourceToken}
+var tags = { 'azd-env-name': environmentName, 'cost-center':costCenter, 'creation-date':creationDate, 'expiration-date':expirationDate, 'requestor-name':requestor}
 var rgName = 'rg-${environmentName}'
 var keyVaultName = 'kv-${resourceToken}'
 
@@ -359,7 +359,7 @@ module keyvault './core/security/keyvault.bicep' = if (useKeyVault || authType =
 // using the module chat-with-your-data-solution-accelerator/infra/core/private-endpoint/private-endpoint.bicep, add a private link to this key vault
 module keyvaultPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = if (useKeyVault || authType == 'rbac') {
   name: 'keyvault-private-endpoint'
-  scope: resourceGroup(vnetResourceGroup)
+  scope: rg
   params: {
     location: location
     name: keyVaultName
@@ -435,7 +435,7 @@ module openai 'core/ai/cognitiveservices.bicep' = {
 
 module openaiPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' =  {
   name: 'openai-private-endpoint'
-  scope: resourceGroup(vnetResourceGroup)
+  scope: rg
   params: {
     location: location
     name: azureOpenAIResourceName
@@ -463,7 +463,7 @@ module computerVision 'core/ai/cognitiveservices.bicep' = if (useAdvancedImagePr
 
 // module computerVisionPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = if (useAdvancedImageProcessing) {
 //   name: 'computerVision-private-endpoint'
-//   scope: resourceGroup(vnetResourceGroup)
+//   scope: rg
 //   params: {
 //     location: location
 //     name: computerVisionName
@@ -535,7 +535,7 @@ module speechService 'core/ai/cognitiveservices.bicep' = {
 
 module speechServicePrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = {
   name: 'speechService-private-endpoint'
-  scope: resourceGroup(vnetResourceGroup)
+  scope: rg
   params: {
     location: location
     name: speechServiceName
@@ -586,7 +586,7 @@ module search './core/search/search-services.bicep' = {
 
 module searchPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = {
   name: 'searchService-private-endpoint'
-  scope: resourceGroup(vnetResourceGroup)
+  scope: rg
   params: {
     location: location
     name: azureAISearchName
@@ -782,7 +782,7 @@ module web_docker './app/web.bicep' = if (hostingModel == 'container') {
 
 module webPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
   name: 'web-private-endpoint'
-  scope: resourceGroup(vnetResourceGroup)
+  scope: rg
   params: {
     name: hostingModel == 'code'? web.outputs.FRONTEND_API_NAME : web_docker.outputs.FRONTEND_API_NAME
     location: location
@@ -959,7 +959,7 @@ module adminweb_docker './app/adminweb.bicep' = if (hostingModel == 'container')
 
 module webAdminPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
   name: 'webAdmin-private-endpoint'
-  scope: resourceGroup(vnetResourceGroup)
+  scope: rg
   params: {
     name: hostingModel == 'code'? adminweb.outputs.WEBSITE_ADMIN_NAME : adminweb_docker.outputs.WEBSITE_ADMIN_NAME
     location: location
@@ -1145,7 +1145,7 @@ module function_docker './app/function.bicep' = if (hostingModel == 'container')
 
 module functionPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
   name: 'function-private-endpoint'
-  scope: resourceGroup(vnetResourceGroup)
+  scope: rg
   params: {
     name: hostingModel == 'code'? function.outputs.functionName : function_docker.outputs.functionName
     location: location
@@ -1170,7 +1170,7 @@ module formrecognizer 'core/ai/cognitiveservices.bicep' = {
 
 module formRecognizerPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
   name: 'formRecognizer-private-endpoint'
-  scope: resourceGroup(vnetResourceGroup)
+  scope: rg
   params: {
     name: formrecognizer.outputs.name
     location: location
@@ -1196,7 +1196,7 @@ module contentsafety 'core/ai/cognitiveservices.bicep' = {
 
 module contentSafetyPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = {
   name: 'contentSafety-private-endpoint'
-  scope: resourceGroup(vnetResourceGroup)
+  scope: rg
   params: {
     location: location
     name: contentSafetyName
@@ -1258,7 +1258,7 @@ module storage 'core/storage/storage-account.bicep' = {
 
 module storageBlobPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
   name: 'storage-blob-private-endpoint'
-  scope: resourceGroup(vnetResourceGroup)
+  scope: rg
   params: {
     name: 'blob-${storage.outputs.name}'
     location: location
@@ -1272,7 +1272,7 @@ module storageBlobPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep'
 
 module storageQueuePrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
   name: 'storage-queue-private-endpoint'
-  scope: resourceGroup(vnetResourceGroup)
+  scope: rg
   params: {
     name: 'queue-${storage.outputs.name}'
     location: location
@@ -1348,7 +1348,7 @@ module machineLearning 'app/machinelearning.bicep' = if (orchestrationStrategy =
 
 // module mlPrivateEndpoint 'core/private-endpoint/private-endpoint-ml.bicep' = if (orchestrationStrategy == 'prompt_flow') {
 //   name: 'ml-private-endpoint'
-//   scope: resourceGroup(vnetResourceGroup)
+//   scope: rg
 //   params: {
 //     name: machineLearning.outputs.workspaceName
 //     location: location
