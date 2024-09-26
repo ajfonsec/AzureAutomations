@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "545884466444182682"
+      "templateHash": "6827182094175754491"
     }
   },
   "parameters": {
@@ -11982,7 +11982,7 @@
             "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('storageAccountName')), '2022-09-01').outputs.id.value]"
           },
           "subnetId": {
-            "value": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('vnetResourceGroup')), 'Microsoft.Network/virtualNetworks/subnets', split(format('{0}/{1}', parameters('vnetName'), parameters('privateEndpointSubsnet')), '/')[0], split(format('{0}/{1}', parameters('vnetName'), parameters('privateEndpointSubsnet')), '/')[1])]"
+            "value": "/subscriptions/b185e97a-6aaf-400d-a0a3-f4e03ca4aa60/resourceGroups/ASGWorkspace/providers/Microsoft.Network/virtualNetworks/asg-vnettest-0506"
           },
           "resourceEndpointType": {
             "value": "blob"
@@ -11991,7 +11991,7 @@
             "value": "privatelink.blob.core.windows.net"
           },
           "dnsZoneResourceGroup": {
-            "value": "[parameters('dnsZoneResourceGroup')]"
+            "value": "ASGWorkspace"
           }
         },
         "template": {
