@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "6827182094175754491"
+      "templateHash": "2108727483350218422"
     }
   },
   "parameters": {
@@ -11982,7 +11982,7 @@
             "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('storageAccountName')), '2022-09-01').outputs.id.value]"
           },
           "subnetId": {
-            "value": "/subscriptions/b185e97a-6aaf-400d-a0a3-f4e03ca4aa60/resourceGroups/ASGWorkspace/providers/Microsoft.Network/virtualNetworks/asg-vnettest-0506"
+            "value": "/subscriptions/b185e97a-6aaf-400d-a0a3-f4e03ca4aa60/resourceGroups/ASGWorkspace/providers/Microsoft.Network/virtualNetworks/asg-vnettest-0506/subnets/asg-vnettest-subnet1"
           },
           "resourceEndpointType": {
             "value": "blob"

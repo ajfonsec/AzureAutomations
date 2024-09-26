@@ -1263,7 +1263,7 @@ module storageBlobPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep'
     name: 'blob-${storage.outputs.name}'
     location: location
     resourceId: storage.outputs.id
-    subnetId: '/subscriptions/b185e97a-6aaf-400d-a0a3-f4e03ca4aa60/resourceGroups/ASGWorkspace/providers/Microsoft.Network/virtualNetworks/asg-vnettest-0506'
+    subnetId: '/subscriptions/b185e97a-6aaf-400d-a0a3-f4e03ca4aa60/resourceGroups/ASGWorkspace/providers/Microsoft.Network/virtualNetworks/asg-vnettest-0506/subnets/asg-vnettest-subnet1'
     resourceEndpointType: 'blob'
     privateDnsZoneName: 'privatelink.blob.core.windows.net'
     dnsZoneResourceGroup: 'ASGWorkspace'
