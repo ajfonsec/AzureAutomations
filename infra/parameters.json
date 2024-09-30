@@ -12,7 +12,7 @@
         "value": "Hybrid-AI-Sandbox-EastUS2"
       },
       "privateEndpointSubsnet": {
-        "value": "subnet-1"
+        "value": "subnet-3"
       },
       "vnetIntegrationSubnet": {
         "value": "subnet-2"
@@ -21,7 +21,7 @@
         "value": "eastus2"
       },
       "environmentName": {
-        "value": "fonsi15"
+        "value": "fonsi24"
       }
     }
   }
