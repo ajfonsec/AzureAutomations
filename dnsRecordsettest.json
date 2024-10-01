@@ -1,0 +1,142 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.30.3.12046",
+      "templateHash": "2083886471996013127"
+    }
+  },
+  "parameters": {
+    "dnsZoneName": {
+      "type": "string",
+      "defaultValue": "privatelink.blob.core.windows.net"
+    },
+    "dnsZoneRG": {
+      "type": "string",
+      "defaultValue": "[toLower('Hybrid-AI-Sandbox-RG')]"
+    },
+    "dnsZoneSubscriptionId": {
+      "type": "string",
+      "defaultValue": "1c7c2989-3f72-4947-82e7-4a0177af0028"
+    },
+    "recordSetName": {
+      "type": "string",
+      "defaultValue": "fonsitest"
+    },
+    "ttl": {
+      "type": "int",
+      "defaultValue": 3600
+    },
+    "ipAddresses": {
+      "type": "array",
+      "defaultValue": [
+        "10.0.0.4"
+      ]
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "eastus2"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "dnsRecordSetModule",
+      "subscriptionId": "[parameters('dnsZoneSubscriptionId')]",
+      "resourceGroup": "[parameters('dnsZoneRG')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "dnsZoneName": {
+            "value": "[parameters('dnsZoneName')]"
+          },
+          "recordSetName": {
+            "value": "[parameters('recordSetName')]"
+          },
+          "ttl": {
+            "value": "[parameters('ttl')]"
+          },
+          "ipAddresses": {
+            "value": "[parameters('ipAddresses')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.30.3.12046",
+              "templateHash": "12555110477058388663"
+            }
+          },
+          "parameters": {
+            "dnsZoneName": {
+              "type": "string"
+            },
+            "recordSetName": {
+              "type": "string"
+            },
+            "ttl": {
+              "type": "int",
+              "defaultValue": 3600
+            },
+            "ipAddresses": {
+              "type": "array"
+            },
+            "location": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/privateDnsZones/A",
+              "apiVersion": "2020-06-01",
+              "name": "[format('{0}/{1}', parameters('dnsZoneName'), parameters('recordSetName'))]",
+              "properties": {
+                "copy": [
+                  {
+                    "name": "aRecords",
+                    "count": "[length(parameters('ipAddresses'))]",
+                    "input": {
+                      "ipv4Address": "[parameters('ipAddresses')[copyIndex('aRecords')]]"
+                    }
+                  }
+                ],
+                "ttl": "[parameters('ttl')]"
+              }
+            }
+          ],
+          "outputs": {
+            "ipAddressesDebug": {
+              "type": "array",
+              "value": "[parameters('ipAddresses')]"
+            },
+            "aRecordsDebug": {
+              "type": "array",
+              "copy": {
+                "count": "[length(parameters('ipAddresses'))]",
+                "input": {
+                  "ipv4Address": "[parameters('ipAddresses')[copyIndex()]]"
+                }
+              }
+            },
+            "recordSetId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Network/privateDnsZones/A', parameters('dnsZoneName'), parameters('recordSetName'))]"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
